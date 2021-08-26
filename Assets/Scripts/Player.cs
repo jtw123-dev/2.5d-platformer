@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class Player : MonoBehaviour
     private float _yVelocity;
     private bool _doubleJumpActive=true;
     private int _coins;
+    [SerializeField]private int _lives = 3;
+    private bool _hasDied;
+    
     // Start is called before the first frame update
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        UIManager.Instance.UpdateLivesDisplay(_lives);
     }
 
     // Update is called once per frame
@@ -42,7 +47,22 @@ public class Player : MonoBehaviour
             _yVelocity -=_gravity;
         }
         velocity.y = _yVelocity;
-        _controller.Move( velocity*Time.deltaTime);      
+        _controller.Move( velocity*Time.deltaTime);  
+        
+        
+    }
+    private void FixedUpdate()
+    {
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(-6.22f, -1.29f, 0);
+            _lives--;
+            UIManager.Instance.UpdateLivesDisplay(_lives);
+            if (_lives==0)
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
+        }
     }
     public void AddToScore(int points)
     {

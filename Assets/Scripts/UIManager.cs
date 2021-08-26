@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]private Text _text;
+    [SerializeField]private Text _coinText,_livesText;
     private static UIManager _instance;
     public static UIManager Instance
     {
@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateCoinDisplay(int points)
     {
-        _text.text = "Score: " + points.ToString();
+        _coinText.text = "Score: " + points.ToString();
+    }
+    public void UpdateLivesDisplay(int lives)
+    {
+        _livesText.text = "Lives: " + lives.ToString();
     }
 }
